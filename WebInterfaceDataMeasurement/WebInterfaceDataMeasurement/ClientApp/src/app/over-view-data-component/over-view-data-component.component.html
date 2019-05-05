@@ -1,0 +1,59 @@
+<!-- <table mdbTable class="z-depth-1">
+  <thead>
+  <tr>
+    <th [mdbTableSort]="messages" sortBy="primaryKey">Key</th>
+    <th [mdbTableSort]="messages" sortBy="deviceid">Device ID</th>
+    <th [mdbTableSort]="messages" sortBy="datetime">DateTime</th>
+    <th [mdbTableSort]="messages" sortBy="dust">DustValue</th>
+    <th [mdbTableSort]="messages" sortBy="ldr">LDRValue</th>
+    <th [mdbTableSort]="messages" sortBy="co2">CO2</th>
+    <th [mdbTableSort]="messages" sortBy="humidity">Humidity</th>
+    <th [mdbTableSort]="messages" sortBy="temp">Temperature</th>
+    <th [mdbTableSort]="messages" sortBy="noise">Noise</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let message of messages; let i = index">
+    <th scope="row">{{message.primaryKey}}</th>
+    <td>{{message.deviceid}}</td>
+    <td>{{message.datetime}}</td>
+    <td>{{message.dust}}</td>
+    <td>{{message.ldr}}</td>
+    <td>{{message.co2}}</td>
+    <td>{{message.humidity}}</td>
+    <td>{{message.temp}}</td>
+    <td>{{message.noise}}</td>
+  </tr>
+  </tbody>
+</table> -->
+<div class="contentwrapper">
+  <button class="btn btn-primary" (click)="crawlData()">Refresh</button>
+  <table mdbTable class="table">
+    <thead>
+    <tr>
+      <th>Key</th>
+      <th>DeviceID</th>
+      <th>DateTime</th>
+      <th>DustValue</th>
+      <th>LDRValue</th>
+      <th>CO2</th>
+      <th>Humidity</th>
+      <th>Temperature</th>
+      <th>Noise</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let message of messages; let i = index">
+      <th scope="row">{{message.primaryKey}}</th>
+      <td>{{message.deviceid}}</td>
+      <td>{{message.datetime | date:'dd.MM.yyyy HH:mm:ss'}}</td>
+      <td>{{message.dust | number : '.2-2'}}</td>
+      <td>{{message.ldr | number : '.2-2'}}</td>
+      <td>{{message.co2 | number : '.2-2'}}</td>
+      <td>{{message.humidity | number : '.2-2'}}</td>
+      <td>{{message.temp | number : '.2-2'}}</td>
+      <td>{{message.noise | number : '.2-2'}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
