@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using Microsoft.Azure.Devices.Client;
 using System.IO.Ports;
 using System.Collections.Generic;
@@ -13,9 +13,14 @@ namespace RaspReceiver1
 
         static DeviceClient _deviceclient;
         static string _deviceConnectionString = "HostName=iothub01-htlneufelden.azure-devices.net;DeviceId=device01;SharedAccessKey=nYVv4CjszOVifBH4OfQ6eP5AT5SyapOzlFrnO9bRoq8=";
+        static System.Globalization.NumberFormatInfo formatInfo;
 
         static void Main(string[] args)
         {
+            var currentCulture = System.Globalization.CultureInfo.InstalledUICulture;
+            var numberFormat = (System.Globalization.NumberFormatInfo)currentCulture.NumberFormat.Clone();
+            numberFormat.NumberDecimalSeparator = ".";
+            formatInfo = numberFormat;
             Console.WriteLine("Hello World!");
             port = new SerialPort("/dev/ttyUSB0", 9600);
             port.DataReceived += Port_DataReceived;
@@ -23,7 +28,7 @@ namespace RaspReceiver1
             do
             {
                 port.Write(new byte[] { 1 }, 0, 1);
-                Console.ReadKey();
+                System.Threading.Thread.Sleep(20000);
 
             } while (true);
 
@@ -33,21 +38,30 @@ namespace RaspReceiver1
         {
             string data = port.ReadLine();
 
-            Console.Write(data);
+            
 
-            Dictionary<string, string> returnDict = new Dictionary<string, string>();
+            Dictionary<string, object> returnDict = new Dictionary<string, object>();
             returnDict.Add("deviceID", DEVICEID);
+            returnDict.Add("timesent", DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss"));
 
             foreach (var item in data.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 string[] splitBursch = item.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                if(Double.TryParse(splitBursch[1],System.Globalization.NumberStyles.Any,formatInfo, out double res))
+                {
+                    returnDict.Add(splitBursch[0], res);
+                }
+                else
+                {
+                    Console.WriteLine("Failed parsing to double: " + splitBursch[1]);
+                }
 
-                returnDict.Add(splitBursch[0], splitBursch[1]);
+                
             }
 
 
             _deviceclient = DeviceClient.CreateFromConnectionString(_deviceConnectionString, TransportType.Mqtt);
-            
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(returnDict));
             Message message = new Message(Encoding.ASCII.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(returnDict)));
             
             _deviceclient.SendEventAsync(message);

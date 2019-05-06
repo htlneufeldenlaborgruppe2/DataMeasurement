@@ -54,6 +54,8 @@ void loop() {
       Serial.print(";humidity:"+String(humidity));
       Serial.print(";co2:"+String(co2));
       Serial.print(";temp:"+String(temp));
+      Serial.print(";noise:0.00");
+
       Serial.println();
       
     }
