@@ -44,9 +44,9 @@
     </thead>
     <tbody>
     <tr *ngFor="let message of messages; let i = index">
-      <th scope="row">{{message.primaryKey}}</th>
-      <td>{{message.deviceid}}</td>
-      <td>{{message.datetime | date:'dd.MM.yyyy HH:mm:ss'}}</td>
+      <th scope="row">{{message.id}}</th>
+      <td>{{message.deviceId}}</td>
+      <td>{{message.timesent | date:'dd.MM.yyyy HH:mm:ss'}}</td>
       <td>{{message.dust | number : '.2-2'}}</td>
       <td>{{message.ldr | number : '.2-2'}}</td>
       <td>{{message.co2 | number : '.2-2'}}</td>

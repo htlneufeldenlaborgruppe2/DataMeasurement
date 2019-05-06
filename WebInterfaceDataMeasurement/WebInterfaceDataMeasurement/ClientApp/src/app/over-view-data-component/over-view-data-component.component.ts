@@ -27,8 +27,8 @@ private messages:Message[];
 
 }
 export class Message {
-  public primaryKey: number;
-  public deviceid: string;
+  public id: number;
+  public deviceId: string;
   public datetime: Date;
   public dust:number;
   public ldr:number;
