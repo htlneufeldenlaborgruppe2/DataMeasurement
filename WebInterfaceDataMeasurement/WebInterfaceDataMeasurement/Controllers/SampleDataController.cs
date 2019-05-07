@@ -27,5 +27,28 @@ namespace WebInterfaceDataMeasurement.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        public IEnumerable<Message> GetLineGraphData(string deviceid, int items)
+        {
+            using (var context = new SqlprobeContext())
+            {
+                var ret = context.Messages.Where((item) => item.Timesent != null)
+                    .Where((item) => item.DeviceId.ToLower() == deviceid.ToLower()).OrderByDescending(item => item.Timesent)
+                    .Take(items).OrderBy(item => item.Timesent).ToList();
+
+                return ret;
+            }
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<string> GetDeviceIDs()
+        {
+            using (var context = new SqlprobeContext())
+            {
+                var ret= context.Messages.Where((item) => item.Timesent != null).Select((item) => item.DeviceId).Distinct().ToList();
+                return ret;
+            }
+        }
+
     }
 }

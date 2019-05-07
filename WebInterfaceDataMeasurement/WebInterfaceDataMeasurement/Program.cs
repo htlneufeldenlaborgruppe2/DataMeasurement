@@ -19,6 +19,9 @@ namespace WebInterfaceDataMeasurement
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .UseUrls("https://*:61753")
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .UseIISIntegration()
                 .UseStartup<Startup>();
     }
 }

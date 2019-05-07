@@ -3,6 +3,7 @@ using Microsoft.Azure.Devices.Client;
 using System.IO.Ports;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RaspReceiver1
 {
@@ -23,7 +24,7 @@ namespace RaspReceiver1
             formatInfo = numberFormat;
             Console.WriteLine("Hello World!");
             port = new SerialPort("/dev/ttyUSB0", 9600);
-            port.DataReceived += Port_DataReceived;
+            port.DataReceived += (o, e) => Task.Run(()=>Port_DataReceived(o,e));
             port.Open();
             do
             {
@@ -42,7 +43,7 @@ namespace RaspReceiver1
 
             Dictionary<string, object> returnDict = new Dictionary<string, object>();
             returnDict.Add("deviceID", DEVICEID);
-            returnDict.Add("timesent", DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss"));
+            returnDict.Add("timesent", DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss.ff"));
 
             foreach (var item in data.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
             {
