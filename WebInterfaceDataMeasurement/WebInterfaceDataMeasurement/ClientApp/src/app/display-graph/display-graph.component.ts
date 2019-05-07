@@ -14,11 +14,16 @@ export class DisplayGraphComponent implements OnInit {
 
   amountOfLastMessages: number = 5;
   optionsSelect: string[];
-  itemSelected:string;
+  itemSelected:string="null";
+  loadingStateDevices:string="loading";
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.http.get<string[]>(this.baseUrl + 'api/SampleData/GetDeviceIDs').subscribe((data) => {
       this.optionsSelect = data;
+      this.loadingStateDevices="finished"
+    }, (err)=>{
+      console.log(err);
+      this.loadingStateDevices="failed";
     });
   }
   
@@ -159,9 +164,6 @@ export class DisplayGraphComponent implements OnInit {
         // this.lineChartData[5].data.push(element.noise);
         this.lineChartLabels.push(element.timesent.toString());
       });
-
     })
-
-
   }
 }

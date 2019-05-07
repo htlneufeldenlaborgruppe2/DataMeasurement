@@ -1,8 +1,30 @@
 .flex-row{
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    padding:20px;
+    border-radius: 10px;
+    border:1px solid #222;
+/* align-items: center; */
 }
 .flex-item{
     flex-wrap: wrap;
-    flex:1;
+}
+
+.fullsizedregion{
+    width:100%;
+    min-height:100vh;
+    position: relative;
+}
+.display-none{
+    display:none;
+}
+.invisible{
+    visibility: hidden;
+}
+.centered-div{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
 }
