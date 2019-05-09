@@ -52,7 +52,7 @@ void loop() {
       Serial.print(";co2:"+String(co2));
       Serial.print(";temp:"+String(temp));
       Serial.print(";noise:0.00");
-
+Serial.print(";door:13");
       Serial.println();
       
     }
