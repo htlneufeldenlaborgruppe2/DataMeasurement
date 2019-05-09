@@ -11,7 +11,7 @@ import localeFr from '@angular/common/locales/fr';
 })
 export class OverViewDataComponentComponent implements OnInit {
 
-private messages:Message[];
+public messages:Message[];
 
   constructor(private http:HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.crawlData();

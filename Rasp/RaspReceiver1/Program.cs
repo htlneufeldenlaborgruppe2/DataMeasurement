@@ -4,6 +4,8 @@ using System.IO.Ports;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using System.IO;
 
 namespace RaspReceiver1
 {
@@ -61,10 +63,32 @@ namespace RaspReceiver1
             }
 
 
-            _deviceclient = DeviceClient.CreateFromConnectionString(_deviceConnectionString, TransportType.Mqtt);
-            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(returnDict));
-            Message message = new Message(Encoding.ASCII.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(returnDict)));
+           
             
+      
+        }
+        private static void SendToApi(string json)
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://url");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        }
+
+        private static void SendToIotHub(string json)
+        {
+            _deviceclient = DeviceClient.CreateFromConnectionString(_deviceConnectionString, TransportType.Mqtt);
+            Console.WriteLine(json);
+            Message message = new Message(Encoding.ASCII.GetBytes(json));
             _deviceclient.SendEventAsync(message);
         }
     }

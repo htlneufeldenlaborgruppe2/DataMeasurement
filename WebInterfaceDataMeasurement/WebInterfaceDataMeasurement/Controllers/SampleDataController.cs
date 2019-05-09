@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebInterfaceDataMeasurement.Data;
+using System.IO;
 
 namespace WebInterfaceDataMeasurement.Controllers
 {
@@ -14,13 +15,34 @@ namespace WebInterfaceDataMeasurement.Controllers
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
+        [HttpPost("[action]")]
+        public string UploadMsg()
+        {
+            string json = new StreamReader(Request.Body).ReadToEnd();
+
+            try
+            {
+                using (var context = new SqlprobeContext())
+                {
+                    context.Messages.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<Message>(json));
+                    context.SaveChangesAsync();
+                    return "success";
+                }
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+
+            
+        }
 
 
 
         [HttpGet("[action]")]
         public IEnumerable<Message> AllMessages()
         {
-         
+
             using (var context = new SqlprobeContext())
             {
                 return context.Messages.Where((item) => item.Timesent != null).OrderByDescending(item => item.Timesent).ToList();
@@ -45,7 +67,7 @@ namespace WebInterfaceDataMeasurement.Controllers
         {
             using (var context = new SqlprobeContext())
             {
-                var ret= context.Messages.Where((item) => item.Timesent != null).Select((item) => item.DeviceId).Distinct().ToList();
+                var ret = context.Messages.Where((item) => item.Timesent != null).Select((item) => item.DeviceId).Distinct().ToList();
                 return ret;
             }
         }

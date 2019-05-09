@@ -12,10 +12,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DisplayGraphComponent implements OnInit {
 
-  amountOfLastMessages: number = 5;
-  optionsSelect: string[];
-  itemSelected:string="null";
-  loadingStateDevices:string="loading";
+  public amountOfLastMessages: number = 5;
+  public optionsSelect: string[];
+  public itemSelected:string="null";
+  public loadingStateDevices:string="loading";
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.http.get<string[]>(this.baseUrl + 'api/SampleData/GetDeviceIDs').subscribe((data) => {

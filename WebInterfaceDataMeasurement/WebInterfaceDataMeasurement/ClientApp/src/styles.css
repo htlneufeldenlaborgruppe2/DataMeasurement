@@ -38,3 +38,33 @@
       transform: rotate(360deg);
     }
   }
+
+  html {
+    height: 100%;
+  }
+  
+  body {
+    background: #000000;
+    color: #ffffff;
+    margin: 0;
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .hub {
+    display: block;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 9vw;
+    float:left;
+  }
+  
+  .hub span:nth-child(2) {
+    background: #FF9900;
+    color: #000000;
+    border-radius: 1vw;
+    padding: 3px;
+    display: inline-block;
+  }
+  

@@ -37,10 +37,7 @@ void setup() {
   Serial.begin(9600);
 setup_dust();
 setup_co2_hum_temp();
-Serial2.begin(9600, SERIAL_8N1, 16, 17);
-
-
-  
+Serial2.begin(9600, SERIAL_8N1, 16, 17);  
 }
 void loop() {
   loop_co2_hum_temp();
