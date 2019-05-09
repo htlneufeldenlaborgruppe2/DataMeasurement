@@ -7,6 +7,7 @@ const char* password = "20raspi19!";  //Enter Password here
 
 int measurePin = 34;
 int ledPower = 13;
+int reedPin = 12;
 
 int sensorPinLDR = A0; // select the input pin for LDR
 
@@ -16,14 +17,18 @@ int sensorValueLDR = 0; // variable to store the value coming from the sensor
 unsigned int samplingTime = 280;
 unsigned int deltaTime = 40;
 unsigned int sleepTime = 9680;
+unsigned int countDoor = 0;
+unsigned int reedTemp = 1;
 
 double voMeasured = 0;
 double calcVoltage = 0;
 double dustDensity = 0;
+double milliseconds = millis();
 
 float co2=0;
 float temp=0;
 float humidity=0;
+
 
 double interruptCount=0;
 
@@ -43,6 +48,11 @@ void loop() {
   loop_co2_hum_temp();
   measure_dust();
 
+  if(milliseconds > 1000)
+  {
+      reed();
+  }
+
   if(Serial.available()>0){
     if(Serial.read()!=-1){
       Serial.print("dust:" + String(dustDensity));
@@ -52,9 +62,9 @@ void loop() {
       Serial.print(";co2:"+String(co2));
       Serial.print(";temp:"+String(temp));
       Serial.print(";noise:0.00");
-Serial.print(";door:13");
+      Serial.print(";door:"+String(countDoor));
+      resetDoor();
       Serial.println();
-      
     }
   }
 }
@@ -79,9 +89,17 @@ void measure_dust(){
   } 
 }
 
+void resetDoor() {
+  countDoor = 0;
+}
+
 void setup_dust(){
     pinMode(ledPower, OUTPUT);
   digitalWrite(ledPower,HIGH);
+}
+
+void setup_reed() {
+    pinMode (reedPin, INPUT);
 }
 
 void setup_co2_hum_temp(){
@@ -90,6 +108,18 @@ void setup_co2_hum_temp(){
 
   airSensor.begin(Wire); //This will cause readings to occur every two seconds
 }
+
+void reed() {
+  int reed_input;
+
+  reed_input = digitalRead (reedPin);
+
+  if(reed_input == 0 && reedTemp == 1) {
+      countDoor = countDoor + 1;
+  }
+  reedTemp = reed_input;
+}
+
 void loop_co2_hum_temp(){
   if (airSensor.dataAvailable())
   {
