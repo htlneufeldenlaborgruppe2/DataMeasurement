@@ -87,9 +87,9 @@ void measure_dust(){
   } 
 }
 
-void resetDoor() {
+/*void resetDoor() {
   countDoor = 0;
-}
+}*/
 
 void setup_dust(){
     pinMode(ledPower, OUTPUT);
