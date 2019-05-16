@@ -7,6 +7,7 @@ const char* password = "20raspi19!";  //Enter Password here
 
 int measurePin = 34;
 int ledPower = 13;
+int noisePin = //select input pin
 //int reedPin = 27;
 
 int sensorPinLDR = A0; // select the input pin for LDR
@@ -28,6 +29,7 @@ double voMeasured = 0;
 double calcVoltage = 0;
 double dustDensity = 0;
 double dustTemp = 0;
+double noiseValue = 0;
 double milliseconds = millis();
 
 float co2=0;
@@ -54,6 +56,7 @@ void loop() {
   loop_co2_hum_temp();
   measure_dust();
   measure_ldr();
+  measure_noise();
   milliseconds = millis();
   }
   //reed();
@@ -86,6 +89,10 @@ void resetAll() {
   co2 = 0;
   temp = 0;
   counterMulti = 0;
+}
+
+void measure_noise() {
+  noiseValue = analogRead(/*pin*/);
 }
 
 void measure_ldr() {
