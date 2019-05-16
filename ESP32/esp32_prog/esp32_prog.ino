@@ -7,7 +7,7 @@ const char* password = "20raspi19!";  //Enter Password here
 
 int measurePin = 34;
 int ledPower = 13;
-int noisePin = //select input pin
+int noisePin = //enter input pin
 //int reedPin = 27;
 
 int sensorPinLDR = A0; // select the input pin for LDR
