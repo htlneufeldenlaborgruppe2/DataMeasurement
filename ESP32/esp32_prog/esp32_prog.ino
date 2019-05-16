@@ -21,6 +21,7 @@ unsigned int sleepTime = 9680;
 unsigned int counterMulti = 0;
 unsigned int counterDust = 0;
 unsigned int counterLDR = 0;
+unsigned int counterNoise = 0;
 
 //unsigned int countDoor = 0;
 //unsigned int reedTemp = 1;
@@ -30,6 +31,9 @@ double calcVoltage = 0;
 double dustDensity = 0;
 double dustTemp = 0;
 double noiseValue = 0;
+double noiseValueTemp = 0;
+double maxNoise = 0;
+double minNoise = 10000000;
 double milliseconds = millis();
 
 float co2=0;
@@ -72,7 +76,9 @@ void loop() {
       Serial.print(";humidity:"+String(humidity/counterMulti));
       Serial.print(";co2:"+String(co2/counterMulti));
       Serial.print(";temp:"+String(temp/counterMulti));
-      Serial.print(";noise:0.00");
+      Serial.print(";noise:0.00"+String(noiseValue/counterNoise);
+      Serial.print(";noisemin:0.00"+String(minNoise);
+      Serial.print(";noisemax:0.00"+String(maxNoise);
       Serial.println();
       
       resetAll();
@@ -89,10 +95,20 @@ void resetAll() {
   co2 = 0;
   temp = 0;
   counterMulti = 0;
+  noiseValue = 0;
+  counterNoise = 0;
 }
 
 void measure_noise() {
-  noiseValue = analogRead(/*pin*/);
+  counterNoise = counterNoise +1;
+  noiseTemp = analogRead(/*pin*/);
+  if(noiseTemp > maxNoise){
+      maxNoise = noiseTemp;
+    }
+  else if(noiseTemp < minNoise) {
+      minNoise = noiseTemp;
+    }
+  noiseValue = noiseValue + noiseTemp;
 }
 
 void measure_ldr() {
