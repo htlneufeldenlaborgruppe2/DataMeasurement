@@ -62,7 +62,7 @@ void loop() {
       Serial.print(";noise:0.00");
       //Serial.print(";door:"+String(countDoor));
       Serial.println();
-      resetDoor();
+      //resetDoor();
     }
   }
 }
