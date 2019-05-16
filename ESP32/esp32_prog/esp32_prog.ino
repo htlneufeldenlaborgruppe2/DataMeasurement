@@ -33,7 +33,7 @@ double dustTemp = 0;
 double noiseValue = 0;
 double noiseValueTemp = 0;
 double maxNoise = 0;
-double minNoise = 10000000;
+double minNoise = 1000000;
 double milliseconds = millis();
 
 float co2=0;
