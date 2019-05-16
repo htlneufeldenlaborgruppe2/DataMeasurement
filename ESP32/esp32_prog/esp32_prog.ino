@@ -68,17 +68,14 @@ void loop() {
 
   if(Serial.available()>0){
     if(Serial.read()!=-1){
-        loop_co2_hum_temp();
-        measure_dust();
-        measure_ldr();
       Serial.print("dust:" + String(dustTemp/counterDust));
       Serial.print(";ldr:"+String(sensorValueLDR/counterLDR));
       Serial.print(";humidity:"+String(humidity/counterMulti));
       Serial.print(";co2:"+String(co2/counterMulti));
       Serial.print(";temp:"+String(temp/counterMulti));
-      Serial.print(";noise:0.00"+String(noiseValue/counterNoise);
-      Serial.print(";noisemin:0.00"+String(minNoise);
-      Serial.print(";noisemax:0.00"+String(maxNoise);
+      Serial.print(";noise:"+String(noiseValue/counterNoise);
+      Serial.print(";noisemin:"+String(minNoise);
+      Serial.print(";noisemax:"+String(maxNoise);
       Serial.println();
       
       resetAll();
