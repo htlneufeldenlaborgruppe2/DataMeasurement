@@ -17,13 +17,18 @@ int sensorValueLDR = 0; // variable to store the value coming from the sensor
 unsigned int samplingTime = 280;
 unsigned int deltaTime = 40;
 unsigned int sleepTime = 9680;
+unsigned int counterMulti = 0;
+unsigned int counterDust = 0;
+unsigned int counterLDR = 0;
+
 //unsigned int countDoor = 0;
 //unsigned int reedTemp = 1;
 
 double voMeasured = 0;
 double calcVoltage = 0;
 double dustDensity = 0;
-//double milliseconds = millis();
+double dustTemp = 0;
+double milliseconds = millis();
 
 float co2=0;
 float temp=0;
@@ -45,30 +50,51 @@ setup_co2_hum_temp();
 Serial2.begin(9600, SERIAL_8N1, 16, 17);  
 }
 void loop() {
+  if(millis() - milliseconds > 500) {
   loop_co2_hum_temp();
   measure_dust();
-
+  measure_ldr();
+  milliseconds = millis();
+  }
   //reed();
   
 
   if(Serial.available()>0){
     if(Serial.read()!=-1){
-      Serial.print("dust:" + String(dustDensity));
-      sensorValueLDR=analogRead(sensorPinLDR);
-      Serial.print(";ldr:"+String(sensorValueLDR));
-      Serial.print(";humidity:"+String(humidity));
-      Serial.print(";co2:"+String(co2));
-      Serial.print(";temp:"+String(temp));
+        loop_co2_hum_temp();
+        measure_dust();
+        measure_ldr();
+      Serial.print("dust:" + String(dustTemp/counterDust));
+      Serial.print(";ldr:"+String(sensorValueLDR/counterLDR));
+      Serial.print(";humidity:"+String(humidity/counterMulti));
+      Serial.print(";co2:"+String(co2/counterMulti));
+      Serial.print(";temp:"+String(temp/counterMulti));
       Serial.print(";noise:0.00");
-      //Serial.print(";door:"+String(countDoor));
       Serial.println();
-      //resetDoor();
+      
+      resetAll();
     }
   }
 }
 
+void resetAll() {
+  dustTemp = 0;
+  counterDust = 0;
+  sensorValueLDR = 0;
+  counterLDR = 0;
+  humidity = 0;
+  co2 = 0;
+  temp = 0;
+  counterMulti = 0;
+}
+
+void measure_ldr() {
+  counterLDR = counterLDR + 1;
+  sensorValueLDR= sensorValueLDR + analogRead(sensorPinLDR);
+}
 
 void measure_dust(){
+  counterDust = counterDust + 1;
     digitalWrite(ledPower,LOW);
   delayMicroseconds(samplingTime);
 
@@ -85,6 +111,7 @@ void measure_dust(){
   {
     dustDensity = 0.00;
   } 
+  dustTemp = dustTemp + dustDensity;
 }
 
 /*void resetDoor() {
@@ -121,16 +148,17 @@ void setup_co2_hum_temp(){
 void loop_co2_hum_temp(){
   if (airSensor.dataAvailable())
   {
+    counterMulti = counterMulti +1;
     //Serial.print("co2(ppm):");
-    co2=airSensor.getCO2();
+    co2=co2 + airSensor.getCO2();
     //Serial.print(co2);
 
     //Serial.print(" temp(C):");
-    temp=airSensor.getTemperature();
+    temp=temp + airSensor.getTemperature();
     //Serial.println(temp);
 
     //Serial.print(" humidity(%):");
-    humidity=airSensor.getHumidity();
+    humidity=humidity + airSensor.getHumidity();
     //Serial.println(humidity);
 
     //Serial.println();
