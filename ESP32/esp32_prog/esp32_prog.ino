@@ -7,7 +7,7 @@ const char* password = "20raspi19!";  //Enter Password here
 
 int measurePin = 34;
 int ledPower = 13;
-int reedPin = 12;
+int reedPin = 27;
 
 int sensorPinLDR = A0; // select the input pin for LDR
 
@@ -47,11 +47,8 @@ Serial2.begin(9600, SERIAL_8N1, 16, 17);
 void loop() {
   loop_co2_hum_temp();
   measure_dust();
+  reed();
 
-  if(milliseconds > 1000)
-  {
-      reed();
-  }
 
   if(Serial.available()>0){
     if(Serial.read()!=-1){
@@ -63,8 +60,8 @@ void loop() {
       Serial.print(";temp:"+String(temp));
       Serial.print(";noise:0.00");
       Serial.print(";door:"+String(countDoor));
-      resetDoor();
       Serial.println();
+      resetDoor();
     }
   }
 }
@@ -80,7 +77,7 @@ void measure_dust(){
   digitalWrite(ledPower,HIGH);
   delayMicroseconds(sleepTime);
 
-  calcVoltage = voMeasured*(5.0/1024);
+  calcVoltage = voMeasured*(5000/1024);
   dustDensity = 0.17*calcVoltage-0.1;
 
   if ( dustDensity < 0)
