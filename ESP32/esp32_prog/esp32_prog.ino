@@ -101,7 +101,7 @@ void resetAll() {
 
 void measure_noise() {
   counterNoise = counterNoise +1;
-  noiseTemp = analogRead(/*pin*/);
+  noiseTemp = analogRead(noisePin);
   if(noiseTemp > maxNoise){
       maxNoise = noiseTemp;
     }
