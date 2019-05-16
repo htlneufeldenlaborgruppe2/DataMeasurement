@@ -40,6 +40,7 @@ float co2=0;
 float temp=0;
 float humidity=0;
 
+string noiseAllValues = "";
 
 double interruptCount=0;
 
@@ -76,6 +77,7 @@ void loop() {
       Serial.print(";noise:"+String(noiseValue/counterNoise);
       Serial.print(";noisemin:"+String(minNoise);
       Serial.print(";noisemax:"+String(maxNoise);
+      Serial.print(";noisevalues:"+noiseAllValues);
       Serial.println();
       
       resetAll();
@@ -106,6 +108,7 @@ void measure_noise() {
       minNoise = noiseTemp;
     }
   noiseValue = noiseValue + noiseTemp;
+  noiseAllValues = noiseAllValues + String(noiseTemp) + "_";
 }
 
 void measure_ldr() {
