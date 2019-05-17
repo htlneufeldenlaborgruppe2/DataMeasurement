@@ -75,7 +75,12 @@ namespace WebInterfaceDataMeasurement
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-            RecurringJob.AddOrUpdate(() => System.IO.File.WriteAllText(), Cron.Minutely());
+            RecurringJob.AddOrUpdate(() => UpdateUntisTimetable(), Cron.Daily());
+        }
+
+        public void UpdateUntisTimetable()
+        {
+
         }
     }
 }

@@ -7,14 +7,18 @@ namespace WebInterfaceDataMeasurement.Data
     {
         public int Id { get; set; }
         public string DeviceId { get; set; }
-        public string Dust { get; set; }
-        public string Ldr { get; set; }
-        public string Humidity { get; set; }
-        public string Co2 { get; set; }
-        public string Temp { get; set; }
+        public double? Dust { get; set; }
+        public double? Ldr { get; set; }
+        public double? Humidity { get; set; }
+        public double? Co2 { get; set; }
+        public double? Temp { get; set; }
         public DateTime? Timesent { get; set; }
-        public string Noise { get; set; }
+        public double? Noise { get; set; }
+        public double? Noisemin { get; set; }
+        public double? Noisemax { get; set; }
         public int? FkDeviceId { get; set; }
+        public double? Noisequartal1 { get; set; }
+        public double? Noisequartal3 { get; set; }
 
         public virtual Device FkDevice { get; set; }
     }

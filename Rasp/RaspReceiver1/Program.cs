@@ -12,6 +12,7 @@ namespace RaspReceiver1
     class Program
     {
         const string DEVICEID = "Raspberry11";
+        const string url = "http://localhost:61753/api/SampleData/UploadMsg";
         static SerialPort port;
 
         static DeviceClient _deviceclient;
@@ -26,7 +27,7 @@ namespace RaspReceiver1
             formatInfo = numberFormat;
             Console.WriteLine("Hello World!");
             port = new SerialPort("/dev/ttyUSB0", 9600);
-            port.DataReceived += (o, e) => Task.Run(()=>Port_DataReceived(o,e));
+            port.DataReceived += (o, e) => Task.Run(() => Port_DataReceived(o, e));
             port.Open();
             do
             {
@@ -34,7 +35,7 @@ namespace RaspReceiver1
                 System.Threading.Thread.Sleep(20000);
 
             } while (true);
-
+          
         }
 
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -63,13 +64,13 @@ namespace RaspReceiver1
             }
 
 
-           
+            SendToApi(Newtonsoft.Json.JsonConvert.SerializeObject(returnDict));
             
       
         }
         private static void SendToApi(string json)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://url");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
@@ -82,6 +83,7 @@ namespace RaspReceiver1
             }
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            Console.Write(new StreamReader(httpResponse.GetResponseStream()).ReadToEnd());
         }
 
         private static void SendToIotHub(string json)

@@ -7,14 +7,16 @@ namespace WebInterfaceDataMeasurement.Data
     {
         public Room()
         {
-            RaumDevices = new HashSet<RaumDevice>();
+            RoomDevices = new HashSet<RoomDevice>();
+            RoomSubjects = new HashSet<RoomSubject>();
         }
 
         public int RoomId { get; set; }
-        public int RaumNr { get; set; }
+        public string RoomNr { get; set; }
         public decimal? NoiseConstant { get; set; }
         public int WorkingPlaces { get; set; }
 
-        public virtual ICollection<RaumDevice> RaumDevices { get; set; }
+        public virtual ICollection<RoomDevice> RoomDevices { get; set; }
+        public virtual ICollection<RoomSubject> RoomSubjects { get; set; }
     }
 }

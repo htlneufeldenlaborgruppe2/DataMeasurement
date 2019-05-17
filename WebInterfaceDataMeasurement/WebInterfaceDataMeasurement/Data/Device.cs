@@ -8,7 +8,7 @@ namespace WebInterfaceDataMeasurement.Data
         public Device()
         {
             Messages = new HashSet<Message>();
-            RaumDevices = new HashSet<RaumDevice>();
+            RoomDevices = new HashSet<RoomDevice>();
         }
 
         public int DeviceId { get; set; }
@@ -16,6 +16,6 @@ namespace WebInterfaceDataMeasurement.Data
         public string Text { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
-        public virtual ICollection<RaumDevice> RaumDevices { get; set; }
+        public virtual ICollection<RoomDevice> RoomDevices { get; set; }
     }
 }

@@ -11,10 +11,6 @@ namespace WebInterfaceDataMeasurement.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
         [HttpPost("[action]")]
         public string UploadMsg()
         {
@@ -24,8 +20,16 @@ namespace WebInterfaceDataMeasurement.Controllers
             {
                 using (var context = new MyDatabaseContext())
                 {
-                    context.Messages.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<Message>(json));
-                    context.SaveChangesAsync();
+                    var msg= Newtonsoft.Json.JsonConvert.DeserializeObject<Message>(json);
+
+                    Device dev = context.Devices.FirstOrDefault((item) => item.Text == msg.DeviceId);
+
+                    dev.Messages.Add(msg);
+
+
+                    context.SaveChanges();
+
+
                     return "success";                  
                 }
             }
