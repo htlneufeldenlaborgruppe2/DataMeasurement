@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace WebInterfaceDataMeasurement
 {
@@ -13,6 +15,10 @@ namespace WebInterfaceDataMeasurement
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+    
+
+            
+          
         }
 
         public IConfiguration Configuration { get; }
@@ -21,12 +27,13 @@ namespace WebInterfaceDataMeasurement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=sqldatabaseserver1htlneufelden.database.windows.net;Initial Catalog=sqlprobe;Persist Security Info=True;User ID=Gruppe2;Password=AsDf1234"));
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +48,9 @@ namespace WebInterfaceDataMeasurement
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -65,6 +75,7 @@ namespace WebInterfaceDataMeasurement
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+            RecurringJob.AddOrUpdate(() => System.IO.File.WriteAllText(), Cron.Minutely());
         }
     }
 }

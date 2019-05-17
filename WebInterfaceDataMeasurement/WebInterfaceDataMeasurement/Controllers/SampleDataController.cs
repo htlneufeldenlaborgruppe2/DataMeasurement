@@ -22,11 +22,11 @@ namespace WebInterfaceDataMeasurement.Controllers
 
             try
             {
-                using (var context = new SqlprobeContext())
+                using (var context = new MyDatabaseContext())
                 {
                     context.Messages.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<Message>(json));
                     context.SaveChangesAsync();
-                    return "success";
+                    return "success";                  
                 }
             }
             catch (Exception e)
@@ -43,7 +43,7 @@ namespace WebInterfaceDataMeasurement.Controllers
         public IEnumerable<Message> AllMessages()
         {
 
-            using (var context = new SqlprobeContext())
+            using (var context = new MyDatabaseContext())
             {
                 return context.Messages.Where((item) => item.Timesent != null).OrderByDescending(item => item.Timesent).ToList();
             }
@@ -52,7 +52,7 @@ namespace WebInterfaceDataMeasurement.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Message> GetLineGraphData(string deviceid, int items)
         {
-            using (var context = new SqlprobeContext())
+            using (var context = new MyDatabaseContext())
             {
                 var ret = context.Messages.Where((item) => item.Timesent != null)
                     .Where((item) => item.DeviceId.ToLower() == deviceid.ToLower()).OrderByDescending(item => item.Timesent)
@@ -65,7 +65,7 @@ namespace WebInterfaceDataMeasurement.Controllers
         [HttpGet("[action]")]
         public IEnumerable<string> GetDeviceIDs()
         {
-            using (var context = new SqlprobeContext())
+            using (var context = new MyDatabaseContext())
             {
                 var ret = context.Messages.Where((item) => item.Timesent != null).Select((item) => item.DeviceId).Distinct().ToList();
                 return ret;

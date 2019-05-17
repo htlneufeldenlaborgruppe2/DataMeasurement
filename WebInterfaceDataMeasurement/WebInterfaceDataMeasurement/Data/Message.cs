@@ -14,5 +14,8 @@ namespace WebInterfaceDataMeasurement.Data
         public string Temp { get; set; }
         public DateTime? Timesent { get; set; }
         public string Noise { get; set; }
+        public int? FkDeviceId { get; set; }
+
+        public virtual Device FkDevice { get; set; }
     }
 }
