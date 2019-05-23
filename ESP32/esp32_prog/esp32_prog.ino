@@ -7,7 +7,7 @@ const char* password = "20raspi19!";  //Enter Password here
 
 int measurePin = 34;
 int ledPower = 13;
-int noisePin = //enter input pin
+int noisePin = 12;//enter input pin
 //int reedPin = 27;
 
 int sensorPinLDR = A0; // select the input pin for LDR
@@ -40,21 +40,20 @@ float co2=0;
 float temp=0;
 float humidity=0;
 
-string noiseAllValues = "";
+String noiseAllValues = "";
 
 double interruptCount=0;
 
 /* Put IP Address details */
-
+bool req = true;
 SCD30 airSensor;
 
 
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 setup_dust();
-setup_co2_hum_temp();
-Serial2.begin(9600, SERIAL_8N1, 16, 17);  
+setup_co2_hum_temp(); 
 }
 void loop() {
   if(millis() - milliseconds > 500) {
@@ -65,24 +64,24 @@ void loop() {
   milliseconds = millis();
   }
   //reed();
-  
 
-  if(Serial.available()>0){
-    if(Serial.read()!=-1){
-      Serial.print("dust:" + String(dustTemp/counterDust));
-      Serial.print(";ldr:"+String(sensorValueLDR/counterLDR));
-      Serial.print(";humidity:"+String(humidity/counterMulti));
-      Serial.print(";co2:"+String(co2/counterMulti));
-      Serial.print(";temp:"+String(temp/counterMulti));
-      Serial.print(";noise:"+String(noiseValue/counterNoise);
-      Serial.print(";noisemin:"+String(minNoise);
-      Serial.print(";noisemax:"+String(maxNoise);
-      Serial.print(";noisevalues:"+noiseAllValues);
-      Serial.println();
+  if(Serial.readString()!=""){
+
+
+   
+     
+          Serial.println("dust:" + String(dustTemp/counterDust)+
+      ";ldr:"+String(sensorValueLDR/counterLDR)+
+      ";humidity:"+String(humidity/counterMulti)+
+      ";co2:"+String(co2/counterMulti)+
+      ";temp:"+String(temp/counterMulti)+
+      ";noise:"+String(noiseValue/counterNoise)+
+      ";noisemin:"+String(minNoise)+
+      ";noisemax:"+String(maxNoise)+
+     ";noisevalues:"+noiseAllValues);
       
       resetAll();
-    }
-  }
+      } 
 }
 
 void resetAll() {
@@ -96,11 +95,12 @@ void resetAll() {
   counterMulti = 0;
   noiseValue = 0;
   counterNoise = 0;
+  noiseAllValues="";
 }
 
 void measure_noise() {
   counterNoise = counterNoise +1;
-  noiseTemp = analogRead(noisePin);
+  float noiseTemp = analogRead(noisePin);
   if(noiseTemp > maxNoise){
       maxNoise = noiseTemp;
     }
@@ -108,7 +108,7 @@ void measure_noise() {
       minNoise = noiseTemp;
     }
   noiseValue = noiseValue + noiseTemp;
-  noiseAllValues = noiseAllValues + String(noiseTemp) + "_";
+  //noiseAllValues = noiseAllValues + String(noiseTemp) + "_";
 }
 
 void measure_ldr() {
