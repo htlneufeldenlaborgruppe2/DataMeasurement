@@ -14,7 +14,7 @@ namespace GenerateTableFromDatabase
         {
 
             var csv = new StringBuilder();
-            csv.Append("temp;hum;co2;vol;volpp;bright;brightClass;dust;time;group;deviceId;room;seatsBehind;class;countPersons;teacher1;teacher2;isSupp;\n");
+            csv.Append("sep=;\ntemp;hum;co2;vol;volpp;bright;brightClass;dust;time;group;deviceId;room;seatsBehind;class;countPersons;teacher1;teacher2;isSupp;\n");
             using (var context = new sqlprobeEntities4())
             {
                 //csv.Append(context.Nachricht.First().Temperatur,context.Nachricht)
