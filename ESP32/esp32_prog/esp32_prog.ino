@@ -17,7 +17,7 @@ int sensorValueLDR = 0; // variable to store the value coming from the sensor
 
 unsigned int samplingTime = 280;
 unsigned int deltaTime = 40;
-unsigned int sleepTime = 9680;
+unsigned int sleepTime = 9600;
 unsigned int counterMulti = 0;
 unsigned int counterDust = 0;
 unsigned int counterLDR = 0;

@@ -14,6 +14,7 @@ namespace RaspReceiver1
     class Program
     {
         const string DEVICEID = "Raspberry11";
+
         const string url = "http://htlneufelden-datameasurement.azurewebsites.net//api/SampleData/UploadMsg";
         static SerialPort port;
 
@@ -28,8 +29,8 @@ namespace RaspReceiver1
             numberFormat.NumberDecimalSeparator = ".";
             formatInfo = numberFormat;
             Console.WriteLine("Hello World!");
-            port = new SerialPort("COM4", 115200)
-            //port = new SerialPort("COM4", 115200)
+            //port = new SerialPort("COM3", 115200)
+            port = new SerialPort("/dev/ttyUSB0", 115200)
             {
                 DataBits = 8,
                 Parity = Parity.None,
@@ -53,12 +54,16 @@ namespace RaspReceiver1
 
         private static void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            try { 
-
-            string data = port.ReadLine();
-            port.DiscardOutBuffer();
+            try {
+                Thread.Sleep(5000);
+                //int bytesToRead = port.BytesToRead;
+                //byte[] buffer = new byte[bytesToRead];
+                // port.Read(buffer, 0, bytesToRead);
+                //string data = Encoding.ASCII.GetString(buffer);
+                string data = port.ReadLine();
+                port.DiscardOutBuffer();
             port.DiscardInBuffer();
-
+                Console.WriteLine("data: " + data);
 
             Dictionary<string, object> returnDict = new Dictionary<string, object>();
             returnDict.Add("deviceID", DEVICEID);
@@ -69,23 +74,23 @@ namespace RaspReceiver1
                 string[] splitBursch = item.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                 if (splitBursch[0] == "noisevalues")
                 {
-                    string[] valuesSplit = splitBursch[1].Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-                    double[] valuesDouble = new double[valuesSplit.Length];
+                    //string[] valuesSplit = splitBursch[1].Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+                    //double[] valuesDouble = new double[valuesSplit.Length];
 
-                    for (int i = 0; i < valuesSplit.Length; i++)
-                    {
-                        if (Double.TryParse(valuesSplit[i], System.Globalization.NumberStyles.Any, formatInfo, out double res1))
-                        {
-                            valuesDouble[i] = res1;
-                        }
-                    }
-                    var templist = valuesDouble.ToList();
-                    templist.Sort();
-                    valuesDouble = templist.ToArray();
-                    (double quartil1, double median, double quartil3) = Quartiles(valuesDouble);
-                    returnDict.Add("noisequartal1", quartil1);
-                    returnDict.Add("noisemedian", median);
-                    returnDict.Add("noisequartal3", quartil3);
+                    //for (int i = 0; i < valuesSplit.Length; i++)
+                    //{
+                    //    if (Double.TryParse(valuesSplit[i], System.Globalization.NumberStyles.Any, formatInfo, out double res1))
+                    //    {
+                    //        valuesDouble[i] = res1;
+                    //    }
+                    //}
+                    //var templist = valuesDouble.ToList();
+                    //templist.Sort();
+                    //valuesDouble = templist.ToArray();
+                    //(double quartil1, double median, double quartil3) = Quartiles(valuesDouble);
+                    //returnDict.Add("noisequartal1", quartil1);
+                    //returnDict.Add("noisemedian", median);
+                    //returnDict.Add("noisequartal3", quartil3);
 
                 }
                 else if (Double.TryParse(splitBursch[1], System.Globalization.NumberStyles.Any, formatInfo, out double res))
