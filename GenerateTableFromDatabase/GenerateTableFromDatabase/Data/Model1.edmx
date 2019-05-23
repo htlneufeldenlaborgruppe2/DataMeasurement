@@ -1,0 +1,651 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="sqlprobeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="int" Nullable="false" />
+          <Property Name="ClassName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Students" Type="int" />
+        </EntityType>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="Device_ID" />
+          </Key>
+          <Property Name="Device_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IpAdress" Type="nvarchar(max)" />
+          <Property Name="Text" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deviceID" Type="nvarchar(max)" />
+          <Property Name="dust" Type="float" />
+          <Property Name="ldr" Type="float" />
+          <Property Name="humidity" Type="float" />
+          <Property Name="co2" Type="float" />
+          <Property Name="temp" Type="float" />
+          <Property Name="timesent" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="noise" Type="float" />
+          <Property Name="noisemin" Type="float" />
+          <Property Name="noisemax" Type="float" />
+          <Property Name="fk_DeviceID" Type="int" Nullable="false" />
+          <Property Name="noisequartal1" Type="float" />
+          <Property Name="noisequartal3" Type="float" />
+          <Property Name="noisemedian" Type="float" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Room_ID" />
+          </Key>
+          <Property Name="Room_ID" Type="int" Nullable="false" />
+          <Property Name="RoomNr" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NoiseConstant" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="WorkingPlaces" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Room_Device">
+          <Key>
+            <PropertyRef Name="Room_Device_ID" />
+          </Key>
+          <Property Name="Room_Device_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fk_RoomID" Type="int" Nullable="false" />
+          <Property Name="fk_DeviceID" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="date" Nullable="false" />
+          <Property Name="ValidUntil" Type="date" />
+        </EntityType>
+        <EntityType Name="RoomSubject">
+          <Key>
+            <PropertyRef Name="RoomSubjectID" />
+          </Key>
+          <Property Name="fk_RoomID" Type="int" Nullable="false" />
+          <Property Name="fk_TeacherID" Type="int" Nullable="false" />
+          <Property Name="fk_SubjectID" Type="int" Nullable="false" />
+          <Property Name="fk_ClassID" Type="int" Nullable="false" />
+          <Property Name="RoomSubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Test" Type="bit" />
+          <Property Name="ReplacementLesson" Type="bit" />
+          <Property Name="Hour" Type="int" />
+          <Property Name="Day" Type="date" />
+          <Property Name="fk_Teachers2ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="SubjectNamelong" Type="nvarchar(max)" />
+          <Property Name="SubjectNameshort" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+          </Key>
+          <Property Name="TeacherID" Type="int" Nullable="false" />
+          <Property Name="TeacherName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TEST">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="deviceID" Type="nvarchar(max)" />
+          <Property Name="dust" Type="float" />
+          <Property Name="ldr" Type="float" />
+          <Property Name="humidity" Type="float" />
+          <Property Name="co2" Type="float" />
+          <Property Name="temp" Type="float" />
+          <Property Name="timesent" Type="nvarchar(max)" />
+          <Property Name="noise" Type="float" />
+          <Property Name="noisemin" Type="float" />
+          <Property Name="noisemax" Type="float" />
+          <Property Name="fk_DeviceID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Message_Device">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Device_ID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="fk_DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Device_Device">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="Room_Device" Type="Self.Room_Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Device_ID" />
+            </Principal>
+            <Dependent Role="Room_Device">
+              <PropertyRef Name="fk_DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Device_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="Room_Device" Type="Self.Room_Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Room_ID" />
+            </Principal>
+            <Dependent Role="Room_Device">
+              <PropertyRef Name="fk_RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Room_ID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Teacher2">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_Teachers2ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sqlprobeModelStoreContainer">
+          <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room_Device" EntityType="Self.Room_Device" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomSubject" EntityType="Self.RoomSubject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TEST" EntityType="Self.TEST" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Message_Device" Association="Self.FK_Message_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Device_Device" Association="Self.FK_Room_Device_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Room_Device" EntitySet="Room_Device" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Device_Room" Association="Self.FK_Room_Device_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Room_Device" EntitySet="Room_Device" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Class" Association="Self.FK_RoomSubject_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Room" Association="Self.FK_RoomSubject_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Subject" Association="Self.FK_RoomSubject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Teacher" Association="Self.FK_RoomSubject_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Teacher2" Association="Self.FK_RoomSubject_Teacher2">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="sqlprobeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Students" Type="Int32" />
+          <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Class" FromRole="Class" ToRole="RoomSubject" />
+        </EntityType>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="Device_ID" />
+          </Key>
+          <Property Name="Device_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IpAdress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Message" Relationship="Self.FK_Message_Device" FromRole="Device" ToRole="Message" />
+          <NavigationProperty Name="Room_Device" Relationship="Self.FK_Room_Device_Device" FromRole="Device" ToRole="Room_Device" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deviceID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dust" Type="Double" />
+          <Property Name="ldr" Type="Double" />
+          <Property Name="humidity" Type="Double" />
+          <Property Name="co2" Type="Double" />
+          <Property Name="temp" Type="Double" />
+          <Property Name="timesent" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="noise" Type="Double" />
+          <Property Name="noisemin" Type="Double" />
+          <Property Name="noisemax" Type="Double" />
+          <Property Name="fk_DeviceID" Type="Int32" Nullable="false" />
+          <Property Name="noisequartal1" Type="Double" />
+          <Property Name="noisequartal3" Type="Double" />
+          <Property Name="noisemedian" Type="Double" />
+          <NavigationProperty Name="Device" Relationship="Self.FK_Message_Device" FromRole="Message" ToRole="Device" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Room_ID" />
+          </Key>
+          <Property Name="Room_ID" Type="Int32" Nullable="false" />
+          <Property Name="RoomNr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NoiseConstant" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="WorkingPlaces" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Room_Device" Relationship="Self.FK_Room_Device_Room" FromRole="Room" ToRole="Room_Device" />
+          <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Room" FromRole="Room" ToRole="RoomSubject" />
+        </EntityType>
+        <EntityType Name="Room_Device">
+          <Key>
+            <PropertyRef Name="Room_Device_ID" />
+          </Key>
+          <Property Name="Room_Device_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fk_RoomID" Type="Int32" Nullable="false" />
+          <Property Name="fk_DeviceID" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ValidUntil" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Device" Relationship="Self.FK_Room_Device_Device" FromRole="Room_Device" ToRole="Device" />
+          <NavigationProperty Name="Room" Relationship="Self.FK_Room_Device_Room" FromRole="Room_Device" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="RoomSubject">
+          <Key>
+            <PropertyRef Name="RoomSubjectID" />
+          </Key>
+          <Property Name="fk_RoomID" Type="Int32" Nullable="false" />
+          <Property Name="fk_TeacherID" Type="Int32" Nullable="false" />
+          <Property Name="fk_SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="fk_ClassID" Type="Int32" Nullable="false" />
+          <Property Name="RoomSubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Test" Type="Boolean" />
+          <Property Name="ReplacementLesson" Type="Boolean" />
+          <Property Name="Hour" Type="Int32" />
+          <Property Name="Day" Type="DateTime" Precision="0" />
+          <Property Name="fk_Teachers2ID" Type="Int32" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_RoomSubject_Class" FromRole="RoomSubject" ToRole="Class" />
+          <NavigationProperty Name="Room" Relationship="Self.FK_RoomSubject_Room" FromRole="RoomSubject" ToRole="Room" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_RoomSubject_Subject" FromRole="RoomSubject" ToRole="Subject" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_RoomSubject_Teacher" FromRole="RoomSubject" ToRole="Teacher" />
+          <NavigationProperty Name="Teacher1" Relationship="Self.FK_RoomSubject_Teacher2" FromRole="RoomSubject" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectNamelong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubjectNameshort" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Subject" FromRole="Subject" ToRole="RoomSubject" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+          </Key>
+          <Property Name="TeacherID" Type="Int32" Nullable="false" />
+          <Property Name="TeacherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Teacher" FromRole="Teacher" ToRole="RoomSubject" />
+          <NavigationProperty Name="RoomSubject1" Relationship="Self.FK_RoomSubject_Teacher2" FromRole="Teacher" ToRole="RoomSubject" />
+        </EntityType>
+        <EntityType Name="TEST">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="deviceID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dust" Type="Double" />
+          <Property Name="ldr" Type="Double" />
+          <Property Name="humidity" Type="Double" />
+          <Property Name="co2" Type="Double" />
+          <Property Name="temp" Type="Double" />
+          <Property Name="timesent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="noise" Type="Double" />
+          <Property Name="noisemin" Type="Double" />
+          <Property Name="noisemax" Type="Double" />
+          <Property Name="fk_DeviceID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_RoomSubject_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Device">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Device_ID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="fk_DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Device_Device">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="Room_Device" Type="Self.Room_Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Device_ID" />
+            </Principal>
+            <Dependent Role="Room_Device">
+              <PropertyRef Name="fk_DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Device_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="Room_Device" Type="Self.Room_Device" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Room_ID" />
+            </Principal>
+            <Dependent Role="Room_Device">
+              <PropertyRef Name="fk_RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Room_ID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomSubject_Teacher2">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="TeacherID" />
+            </Principal>
+            <Dependent Role="RoomSubject">
+              <PropertyRef Name="fk_Teachers2ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sqlprobeEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Class" EntityType="Self.Class" />
+          <EntitySet Name="Device" EntityType="Self.Device" />
+          <EntitySet Name="Message" EntityType="Self.Message" />
+          <EntitySet Name="Room" EntityType="Self.Room" />
+          <EntitySet Name="Room_Device" EntityType="Self.Room_Device" />
+          <EntitySet Name="RoomSubject" EntityType="Self.RoomSubject" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <EntitySet Name="TEST" EntityType="Self.TEST" />
+          <AssociationSet Name="FK_RoomSubject_Class" Association="Self.FK_RoomSubject_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Device" Association="Self.FK_Message_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Device_Device" Association="Self.FK_Room_Device_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Room_Device" EntitySet="Room_Device" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Device_Room" Association="Self.FK_Room_Device_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Room_Device" EntitySet="Room_Device" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Room" Association="Self.FK_RoomSubject_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Subject" Association="Self.FK_RoomSubject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Teacher" Association="Self.FK_RoomSubject_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomSubject_Teacher2" Association="Self.FK_RoomSubject_Teacher2">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="RoomSubject" EntitySet="RoomSubject" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="sqlprobeModelStoreContainer" CdmEntityContainer="sqlprobeEntities4">
+          <EntitySetMapping Name="Class">
+            <EntityTypeMapping TypeName="sqlprobeModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Students" ColumnName="Students" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Device">
+            <EntityTypeMapping TypeName="sqlprobeModel.Device">
+              <MappingFragment StoreEntitySet="Device">
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="IpAdress" ColumnName="IpAdress" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="sqlprobeModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deviceID" ColumnName="deviceID" />
+                <ScalarProperty Name="dust" ColumnName="dust" />
+                <ScalarProperty Name="ldr" ColumnName="ldr" />
+                <ScalarProperty Name="humidity" ColumnName="humidity" />
+                <ScalarProperty Name="co2" ColumnName="co2" />
+                <ScalarProperty Name="temp" ColumnName="temp" />
+                <ScalarProperty Name="timesent" ColumnName="timesent" />
+                <ScalarProperty Name="noise" ColumnName="noise" />
+                <ScalarProperty Name="noisemin" ColumnName="noisemin" />
+                <ScalarProperty Name="noisemax" ColumnName="noisemax" />
+                <ScalarProperty Name="fk_DeviceID" ColumnName="fk_DeviceID" />
+                <ScalarProperty Name="noisequartal1" ColumnName="noisequartal1" />
+                <ScalarProperty Name="noisequartal3" ColumnName="noisequartal3" />
+                <ScalarProperty Name="noisemedian" ColumnName="noisemedian" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Room">
+            <EntityTypeMapping TypeName="sqlprobeModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="Room_ID" ColumnName="Room_ID" />
+                <ScalarProperty Name="RoomNr" ColumnName="RoomNr" />
+                <ScalarProperty Name="NoiseConstant" ColumnName="NoiseConstant" />
+                <ScalarProperty Name="WorkingPlaces" ColumnName="WorkingPlaces" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Room_Device">
+            <EntityTypeMapping TypeName="sqlprobeModel.Room_Device">
+              <MappingFragment StoreEntitySet="Room_Device">
+                <ScalarProperty Name="Room_Device_ID" ColumnName="Room_Device_ID" />
+                <ScalarProperty Name="fk_RoomID" ColumnName="fk_RoomID" />
+                <ScalarProperty Name="fk_DeviceID" ColumnName="fk_DeviceID" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidUntil" ColumnName="ValidUntil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomSubject">
+            <EntityTypeMapping TypeName="sqlprobeModel.RoomSubject">
+              <MappingFragment StoreEntitySet="RoomSubject">
+                <ScalarProperty Name="fk_RoomID" ColumnName="fk_RoomID" />
+                <ScalarProperty Name="fk_TeacherID" ColumnName="fk_TeacherID" />
+                <ScalarProperty Name="fk_SubjectID" ColumnName="fk_SubjectID" />
+                <ScalarProperty Name="fk_ClassID" ColumnName="fk_ClassID" />
+                <ScalarProperty Name="RoomSubjectID" ColumnName="RoomSubjectID" />
+                <ScalarProperty Name="Test" ColumnName="Test" />
+                <ScalarProperty Name="ReplacementLesson" ColumnName="ReplacementLesson" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="fk_Teachers2ID" ColumnName="fk_Teachers2ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject">
+            <EntityTypeMapping TypeName="sqlprobeModel.Subject">
+              <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="SubjectNamelong" ColumnName="SubjectNamelong" />
+                <ScalarProperty Name="SubjectNameshort" ColumnName="SubjectNameshort" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="sqlprobeModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="TeacherName" ColumnName="TeacherName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TEST">
+            <EntityTypeMapping TypeName="sqlprobeModel.TEST">
+              <MappingFragment StoreEntitySet="TEST">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deviceID" ColumnName="deviceID" />
+                <ScalarProperty Name="dust" ColumnName="dust" />
+                <ScalarProperty Name="ldr" ColumnName="ldr" />
+                <ScalarProperty Name="humidity" ColumnName="humidity" />
+                <ScalarProperty Name="co2" ColumnName="co2" />
+                <ScalarProperty Name="temp" ColumnName="temp" />
+                <ScalarProperty Name="timesent" ColumnName="timesent" />
+                <ScalarProperty Name="noise" ColumnName="noise" />
+                <ScalarProperty Name="noisemin" ColumnName="noisemin" />
+                <ScalarProperty Name="noisemax" ColumnName="noisemax" />
+                <ScalarProperty Name="fk_DeviceID" ColumnName="fk_DeviceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
