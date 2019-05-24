@@ -14,17 +14,8 @@ namespace GenerateTableFromDatabase.Data
     
     public partial class Subject
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Subject()
-        {
-            this.RoomSubject = new HashSet<RoomSubject>();
-        }
-    
         public int SubjectID { get; set; }
         public string SubjectNamelong { get; set; }
         public string SubjectNameshort { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoomSubject> RoomSubject { get; set; }
     }
 }

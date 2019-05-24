@@ -18,17 +18,15 @@ namespace GenerateTableFromDatabase.Data
         public Room()
         {
             this.Room_Device = new HashSet<Room_Device>();
-            this.RoomSubject = new HashSet<RoomSubject>();
         }
     
         public int Room_ID { get; set; }
         public string RoomNr { get; set; }
         public Nullable<decimal> NoiseConstant { get; set; }
         public int WorkingPlaces { get; set; }
+        public Nullable<int> SeatsBehind { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room_Device> Room_Device { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoomSubject> RoomSubject { get; set; }
     }
 }

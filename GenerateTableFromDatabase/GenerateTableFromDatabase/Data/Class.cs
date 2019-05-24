@@ -23,6 +23,12 @@ namespace GenerateTableFromDatabase.Data
         public int ClassID { get; set; }
         public string ClassName { get; set; }
         public Nullable<int> Students { get; set; }
+        public Nullable<int> Lunch { get; set; }
+        public Nullable<int> BreakMon { get; set; }
+        public Nullable<int> BreakTue { get; set; }
+        public Nullable<int> BreakWed { get; set; }
+        public Nullable<int> BreakThu { get; set; }
+        public Nullable<int> BreakFri { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoomSubject> RoomSubject { get; set; }
