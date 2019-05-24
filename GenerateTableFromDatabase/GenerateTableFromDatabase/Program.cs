@@ -37,6 +37,7 @@ namespace GenerateTableFromDatabase
 
                     if (hour != 0 && roomSubjects.Where(n => n.Hour == hour && n.fk_RoomID.ToString() == roomID).Count() != 0)
                     {
+                        if(!roomSubjects.Where(n=>n.fk_RoomID.ToString()==roomID).Select(n=>n.isFree).First()&& !roomSubjects.Where(n => n.fk_RoomID.ToString() == roomID).Select(n => n.isBreak).First())
                             className = roomSubjects.Where(n => n.Hour == hour && n.fk_RoomID.ToString() == roomID).Select(n => n.Class.ClassName).First();
                             int breakHour = GetBreakHourFromClass(item.timesent, className);
                     }
@@ -60,7 +61,7 @@ namespace GenerateTableFromDatabase
             using (var context = new sqlprobeEntities6())
             {
                 List<Class> classes = context.Class.ToList();
-                if (dt.DayOfWeek == DayOfWeek.Monday)
+               // if (dt.DayOfWeek == DayOfWeek.Monday)
                    // return classes.Where(n => n.ClassName == className).Select(n => n.BreakMon).First();
             }
             return 0;
