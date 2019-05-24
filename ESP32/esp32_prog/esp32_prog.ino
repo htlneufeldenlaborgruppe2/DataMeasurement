@@ -68,9 +68,8 @@ void loop() {
   if(Serial.readString()!=""){
 
 
-   
-     
-          Serial.println("dust:" + String(dustTemp/counterDust)+
+   if(counterDust>0 && counterLDR>0 && counterMulti > 0 && counterNoise>0){
+      Serial.println("dust:" + String(dustTemp/counterDust)+
       ";ldr:"+String(sensorValueLDR/counterLDR)+
       ";humidity:"+String(humidity/counterMulti)+
       ";co2:"+String(co2/counterMulti)+
@@ -81,6 +80,8 @@ void loop() {
      ";noisevalues:"+noiseAllValues);
       
       resetAll();
+   }     
+        
       } 
 }
 
@@ -113,7 +114,8 @@ void measure_noise() {
 
 void measure_ldr() {
   counterLDR = counterLDR + 1;
-  sensorValueLDR= sensorValueLDR + analogRead(sensorPinLDR);
+  float valueRead=analogRead(sensorPinLDR);
+  sensorValueLDR= sensorValueLDR - (1.2759 * valueRead) + 1286.7;
 }
 
 void measure_dust(){
