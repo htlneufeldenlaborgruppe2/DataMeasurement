@@ -13,10 +13,10 @@ namespace GenerateTableFromDatabase.Data
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class sqlprobeEntities4 : DbContext
+    public partial class sqlprobeEntities6 : DbContext
     {
-        public sqlprobeEntities4()
-            : base("name=sqlprobeEntities4")
+        public sqlprobeEntities6()
+            : base("name=sqlprobeEntities6")
         {
         }
     

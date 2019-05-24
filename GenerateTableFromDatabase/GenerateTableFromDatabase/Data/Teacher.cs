@@ -14,19 +14,7 @@ namespace GenerateTableFromDatabase.Data
     
     public partial class Teacher
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Teacher()
-        {
-            this.RoomSubject = new HashSet<RoomSubject>();
-            this.RoomSubject1 = new HashSet<RoomSubject>();
-        }
-    
         public int TeacherID { get; set; }
         public string TeacherName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoomSubject> RoomSubject { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoomSubject> RoomSubject1 { get; set; }
     }
 }

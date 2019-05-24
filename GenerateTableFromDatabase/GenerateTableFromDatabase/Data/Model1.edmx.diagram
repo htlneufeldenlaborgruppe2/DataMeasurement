@@ -4,24 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="10ba57333e444e0d927bff4256c62553" Name="Diagram1">
-        <EntityTypeShape EntityType="sqlprobeModel.Class" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.Device" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.Message" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.Room" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.Room_Device" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.RoomSubject" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.Subject" Width="1.5" PointX="3.75" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.Teacher" Width="1.5" PointX="3.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="sqlprobeModel.TEST" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+      <Diagram DiagramId="4601c9b77fd04d5db6fb4a57f5079818" Name="Diagram1">
+        <EntityTypeShape EntityType="sqlprobeModel.Class" Width="1.5" PointX="5.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.Device" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.Message" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.Room" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.Room_Device" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.RoomSubject" Width="1.5" PointX="8" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.Subject" Width="1.5" PointX="5.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.Teacher" Width="1.5" PointX="7.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sqlprobeModel.TEST" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
         <AssociationConnector Association="sqlprobeModel.FK_RoomSubject_Class" ManuallyRouted="false" />
         <AssociationConnector Association="sqlprobeModel.FK_Message_Device" ManuallyRouted="false" />
         <AssociationConnector Association="sqlprobeModel.FK_Room_Device_Device" ManuallyRouted="false" />
         <AssociationConnector Association="sqlprobeModel.FK_Room_Device_Room" ManuallyRouted="false" />
-        <AssociationConnector Association="sqlprobeModel.FK_RoomSubject_Room" ManuallyRouted="false" />
-        <AssociationConnector Association="sqlprobeModel.FK_RoomSubject_Subject" ManuallyRouted="false" />
-        <AssociationConnector Association="sqlprobeModel.FK_RoomSubject_Teacher" ManuallyRouted="false" />
-        <AssociationConnector Association="sqlprobeModel.FK_RoomSubject_Teacher2" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

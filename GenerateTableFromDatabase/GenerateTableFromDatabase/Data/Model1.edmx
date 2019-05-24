@@ -12,6 +12,12 @@
           <Property Name="ClassID" Type="int" Nullable="false" />
           <Property Name="ClassName" Type="nvarchar" MaxLength="50" />
           <Property Name="Students" Type="int" />
+          <Property Name="Lunch" Type="int" />
+          <Property Name="BreakMon" Type="int" />
+          <Property Name="BreakTue" Type="int" />
+          <Property Name="BreakWed" Type="int" />
+          <Property Name="BreakThu" Type="int" />
+          <Property Name="BreakFri" Type="int" />
         </EntityType>
         <EntityType Name="Device">
           <Key>
@@ -49,6 +55,7 @@
           <Property Name="RoomNr" Type="nvarchar(max)" Nullable="false" />
           <Property Name="NoiseConstant" Type="decimal" Precision="18" Scale="0" />
           <Property Name="WorkingPlaces" Type="int" Nullable="false" />
+          <Property Name="SeatsBehind" Type="int" />
         </EntityType>
         <EntityType Name="Room_Device">
           <Key>
@@ -65,15 +72,17 @@
             <PropertyRef Name="RoomSubjectID" />
           </Key>
           <Property Name="fk_RoomID" Type="int" Nullable="false" />
-          <Property Name="fk_TeacherID" Type="int" Nullable="false" />
-          <Property Name="fk_SubjectID" Type="int" Nullable="false" />
-          <Property Name="fk_ClassID" Type="int" Nullable="false" />
+          <Property Name="fk_TeacherID" Type="int" />
+          <Property Name="fk_SubjectID" Type="int" />
+          <Property Name="fk_ClassID" Type="int" />
           <Property Name="RoomSubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Test" Type="bit" />
           <Property Name="ReplacementLesson" Type="bit" />
           <Property Name="Hour" Type="int" />
           <Property Name="Day" Type="date" />
           <Property Name="fk_Teachers2ID" Type="int" />
+          <Property Name="isBreak" Type="bit" Nullable="false" />
+          <Property Name="isFree" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Subject">
           <Key>
@@ -88,7 +97,7 @@
             <PropertyRef Name="TeacherID" />
           </Key>
           <Property Name="TeacherID" Type="int" Nullable="false" />
-          <Property Name="TeacherName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TeacherName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="TEST">
           <Key>
@@ -144,7 +153,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RoomSubject_Class">
-          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="Class" Type="Self.Class" Multiplicity="0..1" />
           <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Class">
@@ -152,54 +161,6 @@
             </Principal>
             <Dependent Role="RoomSubject">
               <PropertyRef Name="fk_ClassID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomSubject_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Room">
-              <PropertyRef Name="Room_ID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_RoomID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomSubject_Subject">
-          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subject">
-              <PropertyRef Name="SubjectID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_SubjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomSubject_Teacher">
-          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teacher">
-              <PropertyRef Name="TeacherID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_TeacherID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomSubject_Teacher2">
-          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teacher">
-              <PropertyRef Name="TeacherID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_Teachers2ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -229,22 +190,6 @@
             <End Role="Class" EntitySet="Class" />
             <End Role="RoomSubject" EntitySet="RoomSubject" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Room" Association="Self.FK_RoomSubject_Room">
-            <End Role="Room" EntitySet="Room" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Subject" Association="Self.FK_RoomSubject_Subject">
-            <End Role="Subject" EntitySet="Subject" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Teacher" Association="Self.FK_RoomSubject_Teacher">
-            <End Role="Teacher" EntitySet="Teacher" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Teacher2" Association="Self.FK_RoomSubject_Teacher2">
-            <End Role="Teacher" EntitySet="Teacher" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -258,6 +203,12 @@
           <Property Name="ClassID" Type="Int32" Nullable="false" />
           <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Students" Type="Int32" />
+          <Property Name="Lunch" Type="Int32" />
+          <Property Name="BreakMon" Type="Int32" />
+          <Property Name="BreakTue" Type="Int32" />
+          <Property Name="BreakWed" Type="Int32" />
+          <Property Name="BreakThu" Type="Int32" />
+          <Property Name="BreakFri" Type="Int32" />
           <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Class" FromRole="Class" ToRole="RoomSubject" />
         </EntityType>
         <EntityType Name="Device">
@@ -299,8 +250,8 @@
           <Property Name="RoomNr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="NoiseConstant" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="WorkingPlaces" Type="Int32" Nullable="false" />
+          <Property Name="SeatsBehind" Type="Int32" />
           <NavigationProperty Name="Room_Device" Relationship="Self.FK_Room_Device_Room" FromRole="Room" ToRole="Room_Device" />
-          <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Room" FromRole="Room" ToRole="RoomSubject" />
         </EntityType>
         <EntityType Name="Room_Device">
           <Key>
@@ -319,20 +270,18 @@
             <PropertyRef Name="RoomSubjectID" />
           </Key>
           <Property Name="fk_RoomID" Type="Int32" Nullable="false" />
-          <Property Name="fk_TeacherID" Type="Int32" Nullable="false" />
-          <Property Name="fk_SubjectID" Type="Int32" Nullable="false" />
-          <Property Name="fk_ClassID" Type="Int32" Nullable="false" />
+          <Property Name="fk_TeacherID" Type="Int32" />
+          <Property Name="fk_SubjectID" Type="Int32" />
+          <Property Name="fk_ClassID" Type="Int32" />
           <Property Name="RoomSubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Test" Type="Boolean" />
           <Property Name="ReplacementLesson" Type="Boolean" />
           <Property Name="Hour" Type="Int32" />
           <Property Name="Day" Type="DateTime" Precision="0" />
           <Property Name="fk_Teachers2ID" Type="Int32" />
+          <Property Name="isBreak" Type="Boolean" Nullable="false" />
+          <Property Name="isFree" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Class" Relationship="Self.FK_RoomSubject_Class" FromRole="RoomSubject" ToRole="Class" />
-          <NavigationProperty Name="Room" Relationship="Self.FK_RoomSubject_Room" FromRole="RoomSubject" ToRole="Room" />
-          <NavigationProperty Name="Subject" Relationship="Self.FK_RoomSubject_Subject" FromRole="RoomSubject" ToRole="Subject" />
-          <NavigationProperty Name="Teacher" Relationship="Self.FK_RoomSubject_Teacher" FromRole="RoomSubject" ToRole="Teacher" />
-          <NavigationProperty Name="Teacher1" Relationship="Self.FK_RoomSubject_Teacher2" FromRole="RoomSubject" ToRole="Teacher" />
         </EntityType>
         <EntityType Name="Subject">
           <Key>
@@ -341,16 +290,13 @@
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
           <Property Name="SubjectNamelong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SubjectNameshort" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Subject" FromRole="Subject" ToRole="RoomSubject" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
             <PropertyRef Name="TeacherID" />
           </Key>
           <Property Name="TeacherID" Type="Int32" Nullable="false" />
-          <Property Name="TeacherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="RoomSubject" Relationship="Self.FK_RoomSubject_Teacher" FromRole="Teacher" ToRole="RoomSubject" />
-          <NavigationProperty Name="RoomSubject1" Relationship="Self.FK_RoomSubject_Teacher2" FromRole="Teacher" ToRole="RoomSubject" />
+          <Property Name="TeacherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="TEST">
           <Key>
@@ -370,7 +316,7 @@
           <Property Name="fk_DeviceID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_RoomSubject_Class">
-          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="Class" Type="Self.Class" Multiplicity="0..1" />
           <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Class">
@@ -417,55 +363,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoomSubject_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Room">
-              <PropertyRef Name="Room_ID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_RoomID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomSubject_Subject">
-          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subject">
-              <PropertyRef Name="SubjectID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_SubjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomSubject_Teacher">
-          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teacher">
-              <PropertyRef Name="TeacherID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_TeacherID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomSubject_Teacher2">
-          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
-          <End Role="RoomSubject" Type="Self.RoomSubject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teacher">
-              <PropertyRef Name="TeacherID" />
-            </Principal>
-            <Dependent Role="RoomSubject">
-              <PropertyRef Name="fk_Teachers2ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="sqlprobeEntities4" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="sqlprobeEntities6" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Class" EntityType="Self.Class" />
           <EntitySet Name="Device" EntityType="Self.Device" />
           <EntitySet Name="Message" EntityType="Self.Message" />
@@ -491,35 +389,25 @@
             <End Role="Room" EntitySet="Room" />
             <End Role="Room_Device" EntitySet="Room_Device" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Room" Association="Self.FK_RoomSubject_Room">
-            <End Role="Room" EntitySet="Room" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Subject" Association="Self.FK_RoomSubject_Subject">
-            <End Role="Subject" EntitySet="Subject" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Teacher" Association="Self.FK_RoomSubject_Teacher">
-            <End Role="Teacher" EntitySet="Teacher" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomSubject_Teacher2" Association="Self.FK_RoomSubject_Teacher2">
-            <End Role="Teacher" EntitySet="Teacher" />
-            <End Role="RoomSubject" EntitySet="RoomSubject" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="sqlprobeModelStoreContainer" CdmEntityContainer="sqlprobeEntities4">
+        <EntityContainerMapping StorageEntityContainer="sqlprobeModelStoreContainer" CdmEntityContainer="sqlprobeEntities6">
           <EntitySetMapping Name="Class">
             <EntityTypeMapping TypeName="sqlprobeModel.Class">
               <MappingFragment StoreEntitySet="Class">
                 <ScalarProperty Name="ClassID" ColumnName="ClassID" />
                 <ScalarProperty Name="ClassName" ColumnName="ClassName" />
                 <ScalarProperty Name="Students" ColumnName="Students" />
+                <ScalarProperty Name="Lunch" ColumnName="Lunch" />
+                <ScalarProperty Name="BreakMon" ColumnName="BreakMon" />
+                <ScalarProperty Name="BreakTue" ColumnName="BreakTue" />
+                <ScalarProperty Name="BreakWed" ColumnName="BreakWed" />
+                <ScalarProperty Name="BreakThu" ColumnName="BreakThu" />
+                <ScalarProperty Name="BreakFri" ColumnName="BreakFri" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -560,6 +448,7 @@
                 <ScalarProperty Name="RoomNr" ColumnName="RoomNr" />
                 <ScalarProperty Name="NoiseConstant" ColumnName="NoiseConstant" />
                 <ScalarProperty Name="WorkingPlaces" ColumnName="WorkingPlaces" />
+                <ScalarProperty Name="SeatsBehind" ColumnName="SeatsBehind" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -587,6 +476,8 @@
                 <ScalarProperty Name="Hour" ColumnName="Hour" />
                 <ScalarProperty Name="Day" ColumnName="Day" />
                 <ScalarProperty Name="fk_Teachers2ID" ColumnName="fk_Teachers2ID" />
+                <ScalarProperty Name="isBreak" ColumnName="isBreak" />
+                <ScalarProperty Name="isFree" ColumnName="isFree" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
