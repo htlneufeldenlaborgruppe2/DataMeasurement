@@ -5,12 +5,12 @@
 const char* ssid = "raspi";  // Enter SSID here
 const char* password = "20raspi19!";  //Enter Password here
 
-int measurePin = 34;
-int ledPower = 13;
-int noisePin = 12;//enter input pin
+int measurePin = 15;  //io26
+int ledPower = 35;    
+int noisePin = 16;//enter input pin
 //int reedPin = 27;
 
-int sensorPinLDR = A0; // select the input pin for LDR
+int sensorPinLDR = 13; // select the input pin for LDR
 
 int sensorValueLDR = 0; // variable to store the value coming from the sensor
 
